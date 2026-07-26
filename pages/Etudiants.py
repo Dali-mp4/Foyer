@@ -60,7 +60,7 @@ if st.button("Effacer etudiante"):
 
 
 
-#delete students in data frame
+#update students in data frame
 df["Delete"] = False
 
 edited_df = st.data_editor(
@@ -91,22 +91,24 @@ if st.button("Appliquer"):
             continue
 
         if not edited.equals(original):
-
-            mycursor.execute("""
-                UPDATE students
-                SET
-                    nom=%s,
-                    prenom=%s,
-                    tel=%s,
-                    national_id=%s
-                WHERE national_id=%s
-            """,(
-                str(edited["nom"]),
-                str(edited["prenom"]),
-                str(edited["tel"]),
-                str(edited["national_id"]),
-                str(original["national_id"])
-            ))
+            if len(edited["national_id"]) == 8 :
+                mycursor.execute("""
+                    UPDATE students
+                    SET
+                        nom=%s,
+                        prenom=%s,
+                        tel=%s,
+                        national_id=%s
+                    WHERE national_id=%s
+                """,(
+                    str(edited["nom"]),
+                    str(edited["prenom"]),
+                    str(edited["tel"]),
+                    str(edited["national_id"]),
+                    str(original["national_id"])
+                ))
+            else:
+                st.error("L'identifiant doit comporter 8 chiffres.")
     if len(edited_df) > len(df):
 
         new_rows = edited_df.iloc[len(df):]
