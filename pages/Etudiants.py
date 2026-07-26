@@ -108,7 +108,8 @@ if st.button("Appliquer"):
                     str(original["national_id"])
                 ))
             else:
-                st.error("L'identifiant doit comporter 8 chiffres.")
+                st.error("L'identifiant ou le numero du tel doit comporter 8 chiffres.")
+                st.stop()
     if len(edited_df) > len(df):
 
         new_rows = edited_df.iloc[len(df):]
@@ -118,7 +119,7 @@ if st.button("Appliquer"):
             # Ignore empty rows
             if pd.isna(row["national_id"]):
                 continue
-            if len(edited["national_id"]) == 8 and len(edited["tel"]) == 8:
+            if len(row["national_id"]) == 8 and len(row["tel"]) == 8:
                 mycursor.execute("""
                     INSERT INTO students
                     (nom, prenom, national_id, tel)
@@ -130,7 +131,8 @@ if st.button("Appliquer"):
                     row["tel"]
                 ))
             else:
-                    st.error("L'identifiant doit comporter 8 chiffres.")
+                    st.error("L'identifiant ou le numero du tel doit comporter 8 chiffres.")
+                    st.stop()
     conn.commit()
     mycursor.close()
 
