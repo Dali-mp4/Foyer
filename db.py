@@ -2,8 +2,9 @@ import mysql.connector
 
 def get_connection():
     return mysql.connector.connect(
-        host="localhost",
-        user="Dali",
-        password="Dali2710",
-        database="foyer_management"
+        host=st.secrets["DB_HOST"],
+        port=st.secrets["DB_PORT"],
+        user=st.secrets["DB_USER"],
+        password=st.secrets["DB_PASSWORD"],
+        database=st.secrets["DB_NAME"],
     )
