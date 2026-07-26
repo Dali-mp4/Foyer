@@ -91,7 +91,7 @@ if st.button("Appliquer"):
             continue
 
         if not edited.equals(original):
-            if len(edited["national_id"]) == 8 :
+            if len(edited["national_id"]) == 8 and len(edited["tel"]) == 8:
                 mycursor.execute("""
                     UPDATE students
                     SET
@@ -114,22 +114,23 @@ if st.button("Appliquer"):
         new_rows = edited_df.iloc[len(df):]
 
         for _, row in new_rows.iterrows():
-
+            
             # Ignore empty rows
             if pd.isna(row["national_id"]):
                 continue
-
-            mycursor.execute("""
-                INSERT INTO students
-                (nom, prenom, national_id, tel)
-                VALUES (%s,%s,%s,%s)
-            """,(
-                row["nom"],
-                row["prenom"],
-                row["national_id"],
-                row["tel"]
-            ))
-
+            if len(edited["national_id"]) == 8 and len(edited["tel"]) == 8:
+                mycursor.execute("""
+                    INSERT INTO students
+                    (nom, prenom, national_id, tel)
+                    VALUES (%s,%s,%s,%s)
+                """,(
+                    row["nom"],
+                    row["prenom"],
+                    row["national_id"],
+                    row["tel"]
+                ))
+            else:
+                    st.error("L'identifiant doit comporter 8 chiffres.")
     conn.commit()
     mycursor.close()
 
