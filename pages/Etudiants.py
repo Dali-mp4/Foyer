@@ -5,13 +5,13 @@ from db import get_connection
 conn = get_connection()
 mycursor = conn.cursor()
 
-#test
+
 mycursor.execute("SHOW TABLES")
 tables = mycursor.fetchall()
 st.write(tables)
 
 st.title("Gerer les etudiantes")
-query = "SELECT * FROM Students"
+query = "SELECT * FROM students"
 
 df = pd.read_sql(query, conn)
 
@@ -35,7 +35,7 @@ if search:
 #delete students par dropbox
 mycursor.execute("""
 SELECT national_id, nom, prenom
-FROM Students
+FROM students
 """)
 
 students = mycursor.fetchall()
@@ -54,7 +54,7 @@ if st.button("Effacer etudiante"):
     national_id = student_dict[selected_student]
 
     mycursor.execute(
-        "DELETE FROM Students WHERE national_id = %s",
+        "DELETE FROM students WHERE national_id = %s",
         (national_id,)
     )
 
@@ -75,13 +75,13 @@ edited_df = st.data_editor(
 )
 
 
-df = pd.read_sql("SELECT * FROM Students", conn)
+df = pd.read_sql("SELECT * FROM students", conn)
 
 if st.button("Appliquer"):
     for _, row in edited_df.iterrows():
             if row["Delete"]:
                 mycursor.execute(
-                    "DELETE FROM Students WHERE national_id = %s",
+                    "DELETE FROM students WHERE national_id = %s",
                     (int(row["national_id"]),)
                 )
 
@@ -98,7 +98,7 @@ if st.button("Appliquer"):
         if not edited.equals(original):
 
             mycursor.execute("""
-                UPDATE Students
+                UPDATE students
                 SET
                     nom=%s,
                     prenom=%s,
@@ -123,7 +123,7 @@ if st.button("Appliquer"):
                 continue
 
             mycursor.execute("""
-                INSERT INTO Students
+                INSERT INTO students
                 (nom, prenom, national_id, tel)
                 VALUES (%s,%s,%s,%s)
             """,(
