@@ -1,6 +1,7 @@
 import pandas as pd
 import streamlit as st
 from db import get_connection
+import time
 
 conn = get_connection()
 mycursor = conn.cursor()
