@@ -138,6 +138,6 @@ if st.button("Appliquer"):
     mycursor.close()
 
     st.success("Changes saved!")
-    time.sleep(1)
+    time.sleep(0.6)
     st.rerun()
 
