@@ -5,6 +5,11 @@ from db import get_connection
 conn = get_connection()
 mycursor = conn.cursor()
 
+#test
+mycursor.execute("SHOW TABLES")
+tables = mycursor.fetchall()
+st.write(tables)
+
 st.title("Gerer les etudiantes")
 query = "SELECT * FROM Students"
 
