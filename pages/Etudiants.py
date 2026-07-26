@@ -137,4 +137,6 @@ if st.button("Appliquer"):
     mycursor.close()
 
     st.success("Changes saved!")
+    time.sleep(1)
+    st.rerun()
 
